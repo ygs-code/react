@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <!--<script src="./js/react.development.js"></script>-->
+    <!--<script src="./js/react-dom.development.js"></script>-->
+    <!--<script src="./js/babel.min.js"></script>-->
+
+    <!--官方提供的 CDN 地址：-->
+    <script src="./js/react.development.16.8.6.js"></script>
+    <script src="./js/react-dom.development.16.8.6.js"></script>
+    <!--
+    babel 地址  https://cdnjs.com/libraries/babel-core babel.js与browser.js的关系
+      babel的浏览器版本为browser.js（未精简）和browser.min.js（已精简）
+ -->
+    <script src="./js/browser.5.8.38.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel" src="./js/01/01_01.js"></script>
+
+
+
+    <script type="text/babel">
+//      function HelloMessage(props) {
+//        return <h1>Hello World123!</h1>;
+//      }
+//
+//      const element = <HelloMessage />;
+//
+//      ReactDOM.render(
+//              element,
+//              document.getElementById('example')
+//      );
+
+//      ReactDOM.render(
+//        <h1>Hello, world!</h1>,
+//        document.getElementById("example")
+//      );
+    </script>
+    <script>
+
+      var format='a b c d  % %s';
+      var args = [1, 2, 3, 4, 5, 6];
+      var argIndex = 0;
+      error = new Error(format.replace(/%s/g, function () {
+        console.log('args',args)
+        return args[argIndex++];
+      }));
+      console.log('error',error)
+      error.name = 'Invariant Violation';
+    </script>
+  </body>
+</html>

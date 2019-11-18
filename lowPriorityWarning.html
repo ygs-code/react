@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <script>
+ // 警告, 根据condition 如果为空则发出警告，并且如果format 含有%s的话会被传入的参数替换
+  var lowPriorityWarning = function () { };
+
+{
+  var printWarning = function (format) {
+    console.log('format===',format)
+    console.log('arguments',arguments)
+    for (
+      var _len = arguments.length,  // 函数形参长度
+       args = Array(_len > 1 ? _len - 1 : 0),   // 函数形参长度大于1么，如果大于1 则为 长度-1，否则 为0
+       _key = 1;  // key 等于1
+      _key < _len;  // 当key
+      _key++
+    ) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
+    console.log('args==',args)
+    if (typeof console !== 'undefined') {
+      console.warn(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) { }
+  };
+
+  lowPriorityWarning = function (condition, format) {
+    if (format === undefined) {
+      throw new Error('`lowPriorityWarning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+    console.log('arguments',arguments)
+    if (!condition) {
+      for (
+          var _len2 = arguments.length,  // 参数长度
+          args = Array(_len2 > 2 ? _len2 - 2 : 0), // 如果参数长度大于2 那么就等于 参数长度-2，否则等于0
+          _key2 = 2; // key 等于 2
+          _key2 < _len2;  // 如果key 小于 len 长度
+          _key2++  // key++
+        ) {
+          console.log('_key2',_key2)
+          // 这里就是等参数的长度需要大于4 才能开始进入该循环
+           args[_key2 - 2] = arguments[_key2];
+      }
+      console.log('args',args)
+      console.log('format',format)
+      console.log('[format].concat(args)',[format].concat(args))
+      printWarning.apply(undefined, [format].concat(args));
+    }
+  };
+}
+
+lowPriorityWarning(null, '%s2345%s6',7,8,9,10)
+
+      </script>
+</body>
+</html>
