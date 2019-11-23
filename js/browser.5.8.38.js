@@ -3144,7 +3144,7 @@ function hasOwnProperty(obj, prop) {
 
 _dereq_(15);
 var transform = module.exports = _dereq_(66);
-
+global.transform=transform;
 /**
  * Add `options` and `version` to `babel` global.
  */
@@ -3161,10 +3161,9 @@ transform.transform = transform;
 /**
  * Tranform and execute script, adding in inline sourcemaps.
  */
-
+// 运行 javascript
 transform.run = function (code) {
   var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
   opts.sourceMaps = "inline";
   return new Function(transform(code, opts).code)();
 };
@@ -3172,7 +3171,7 @@ transform.run = function (code) {
 /**
  * Load scripts via xhr, and `transform` when complete (optional).
  */
-
+// 下载 js 远程请求Javascript
 transform.load = function (url, callback, opts, hold) {
   if (opts === undefined) opts = {};
 
@@ -3210,7 +3209,9 @@ transform.load = function (url, callback, opts, hold) {
  */
 
 var runScripts = function runScripts() {
+
   var scripts = [];
+  // 如果含有该类型的js 就加载
   var types = ["text/ecmascript-6", "text/6to5", "text/babel", "module"];
   var index = 0;
 
@@ -3233,8 +3234,8 @@ var runScripts = function runScripts() {
 
   var run = function run(script, i) {
     var opts = {};
-
     if (script.src) {
+      // 远程下载js
       transform.load(script.src, function (param) {
         scripts[i] = param;
         exec();
@@ -3245,8 +3246,8 @@ var runScripts = function runScripts() {
     }
   };
 
-  // Collect scripts with Babel `types`.
-
+   // Collect scripts with Babel `types`.
+  // 获取 浏览器的 script 脚本
   var _scripts = global.document.getElementsByTagName("script");
 
   for (var i = 0; i < _scripts.length; ++i) {
@@ -6000,7 +6001,6 @@ var CodeGenerator = (function () {
     this.format = CodeGenerator.normalizeOptions(code, opts, this.tokens);
     this.opts = opts;
     this.ast = ast;
-
     this.whitespace = new _whitespace2["default"](this.tokens);
     this.position = new _position2["default"]();
     this.map = new _sourceMap2["default"](this.position, opts, code);
@@ -6110,7 +6110,6 @@ var CodeGenerator = (function () {
       }
       this._printComments(comments);
     }
-
     return {
       map: this.map.get(),
       code: this.buffer.get()
@@ -7735,6 +7734,7 @@ var t = _interopRequireWildcard(_types);
  */
 
 exports["default"] = function (ast, comments, tokens) {
+
   if (ast && ast.type === "Program") {
     return t.file(ast, comments || [], tokens || []);
   } else {
@@ -8819,7 +8819,6 @@ var File = (function () {
       result.metadata = this.metadata;
       result.metadata.usedHelpers = Object.keys(this.usedHelpers);
     }
-
     return result;
   };
 
@@ -13523,7 +13522,6 @@ var Pipeline = (function () {
 
   Pipeline.prototype.transformFromAst = function transformFromAst(ast, code, opts) {
     ast = _helpersNormalizeAst2["default"](ast);
-
     var file = new _file2["default"](opts, this);
     return file.wrap(code, function () {
       file.addCode(code);
@@ -23854,6 +23852,7 @@ function _containerInsertAfter(nodes) {
 
 function _maybePopFromStatements(nodes) {
   var last = nodes[nodes.length - 1];
+
   if (t.isExpressionStatement(last) && t.isIdentifier(last.expression) && !this.isCompletionRecord()) {
     nodes.pop();
   }
@@ -34870,7 +34869,7 @@ var path = _dereq_(9);
 var commentRx = /^\s*\/(?:\/|\*)[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+;)?base64,(.*)$/mg;
 var mapFileCommentRx =
   //Example (Extra space between slashes added to solve Safari bug. Exclude space in production):
-  //     / /# sourceMappingURL=foo.js.map           
+  //     / /# sourceMappingURL=foo.js.map
   /(?:\/\/[@#][ \t]+sourceMappingURL=([^\s'"]+?)[ \t]*$)|(?:\/\*[@#][ \t]+sourceMappingURL=([^\*]+?)[ \t]*(?:\*\/){1}[ \t]*$)/mg
 
 function decodeBase64(base64) {
@@ -35503,7 +35502,7 @@ module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
       , ACCEPT_ITERABLES     = $iterDetect(function(iter){ new C(iter); }) // eslint-disable-line no-new
       // for early implementations -0 and +0 not the same
       , BUGGY_ZERO;
-    if(!ACCEPT_ITERABLES){ 
+    if(!ACCEPT_ITERABLES){
       C = wrapper(function(target, iterable){
         strictNew(target, C, NAME);
         var that = new Base;
@@ -39529,7 +39528,6 @@ function varify(ast, stats, allIdentifiers, changes) {
             }
         }
     }
-
     traverse(ast, {pre: renameDeclarations});
     traverse(ast, {pre: renameReferences});
     ast.$scope.traverse({pre: function(scope) {
@@ -39804,7 +39802,6 @@ function run(src, config) {
     }
 
     var ast = parsed;
-
     // TODO detect unused variables (never read)
     error.reset();
 
@@ -42186,7 +42183,7 @@ JSON5.parse = (function () {
             } else {
                 number = +string;
             }
-            
+
             if (!isFinite(number)) {
                 error("Bad number");
             } else {
@@ -52392,7 +52389,6 @@ function genericPrintNoParens(path, options, print) {
     case "XMLComment":
     case "XMLProcessingInstruction":
     default:
-        debugger;
         throw new Error("unknown type: " + JSON.stringify(n.type));
     }
 
@@ -56407,7 +56403,6 @@ function varifyAst(ast) {
   if (defsResult.errors) {
     throw new Error(defsResult.errors.join("\n"))
   }
-
   return ast;
 }
 

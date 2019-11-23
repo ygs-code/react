@@ -11211,8 +11211,10 @@ var isArray$1 = Array.isArray;
 
 // React.Component uses a shared frozen object by default.
 // We'll use it to determine whether we need to initialize legacy refs.
-var emptyRefsObject = new React.Component().refs;
 
+var emptyRefsObject = new React.Component().refs;
+  console.log('emptyRefsObject', emptyRefsObject)
+// react 组件实例化对象，入口
 var didWarnAboutStateAssignmentForComponent = void 0;
 var didWarnAboutUninitializedState = void 0;
 var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate = void 0;
@@ -21298,6 +21300,7 @@ var ReactDOM = {
     return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
   },
   render: function (element, container, callback) {
+    console.log('element', element)
     !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
     {
       !!container._reactHasBeenPassedToCreateRootDEV ? warningWithoutStack$1(false, 'You are calling ReactDOM.render() on a container that was previously ' + 'passed to ReactDOM.%s(). This is not supported. ' + 'Did you mean to call root.render(element)?', enableStableConcurrentModeAPIs ? 'createRoot' : 'unstable_createRoot') : void 0;

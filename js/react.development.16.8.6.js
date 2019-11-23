@@ -176,6 +176,7 @@
     };
   }
 
+  // 报错 公共方法
   function invariant(
     condition,  //判断condition如果不存在 则报错
     format, //判断format如果不存在 则报错
@@ -224,9 +225,8 @@
    * paths. Removing the logging code for production environments will keep the
    * same logic and follow the same code paths.
    */
-  // 警告
+  // 警告, 根据condition 如果为空则发出警告，并且如果format 含有%s的话会被传入的参数替换
   var lowPriorityWarning = function () { };
-
 
   {
     var printWarning = function (format) {
@@ -282,7 +282,6 @@
       }
     };
   }
-
   var lowPriorityWarning$1 = lowPriorityWarning;
 
   /**
@@ -291,7 +290,7 @@
    * paths. Removing the logging code for production environments will keep the
    * same logic and follow the same code paths.
    */
-  // 警告没有堆栈
+  // 警告没有堆栈 函数
   var warningWithoutStack = function () { };
 
   {
@@ -319,14 +318,16 @@
       if (condition) {
         return;
       }
-      if (typeof console !== 'undefined') {
-        var argsWithFormat = args.map(function (item) {
+      if (typeof console !== 'undefined') { // 如果可以输出日志
+        var argsWithFormat = args.map(function (item) {  // 收集参数信息
           return '' + item;
         });
+        // 添加警信息
         argsWithFormat.unshift('Warning: ' + format);
 
         // We intentionally don't use spread (or .apply) directly because it
         // breaks IE9: https://github.com/facebook/react/issues/13610
+        // 输出日志
         Function.prototype.apply.call(console.error, console, argsWithFormat);
       }
       try {
@@ -342,15 +343,22 @@
       } catch (x) { }
     };
   }
-
+  // 警告没有堆栈 函数
   var warningWithoutStack$1 = warningWithoutStack;
 
   var didWarnStateUpdateForUnmountedComponent = {};
-
-  function warnNoop(publicInstance, callerName) {
+  // 调用警告 方法
+  function warnNoop(
+    publicInstance,  // 公共实例
+    callerName  // 生命周期key
+  ) {
     {
+      // 获取构造函数
       var _constructor = publicInstance.constructor;
+      //如果构造函数存在 则是选择构造函数，不然使用ReactClass
       var componentName = _constructor && (_constructor.displayName || _constructor.name) || 'ReactClass';
+
+      // 警告kye  ReactClass.+callerName
       var warningKey = componentName + '.' + callerName;
       if (didWarnStateUpdateForUnmountedComponent[warningKey]) {
         return;
@@ -361,13 +369,13 @@
   }
 
   /**
-   * This is the abstract API for an update queue.
+   * This is the abstract API for an update queue.  这是更新队列的抽象API。
    */
   var ReactNoopUpdateQueue = {
     /**
-     * Checks whether or not this composite component is mounted.
-     * @param {ReactClass} publicInstance The instance we want to test.
-     * @return {boolean} True if mounted, false otherwise.
+     * Checks whether or not this composite component is mounted. 检查是否挂载此复合组件。
+     * @param {ReactClass} publicInstance The instance we want to test. 我们要测试的实例。
+     * @return {boolean} True if mounted, false otherwise. 如果挂载为真，则为假。
      * @protected
      * @final
      */
@@ -376,138 +384,155 @@
     },
 
     /**
-     * Forces an update. This should only be invoked when it is known with
-     * certainty that we are **not** in a DOM transaction.
+     * Forces an update. This should only be invoked when it is known with 强制更新。这应该只在它是已知的时候被调用
+     * certainty that we are **not** in a DOM transaction.  确定我们不是在一个DOM事务中。
      *
-     * You may want to call this when you know that some deeper aspect of the
-     * component's state has changed but `setState` was not called.
+     * You may want to call this when you know that some deeper aspect of the  你可能想要调用这个当你知道一些更深层次的方面
+     * component's state has changed but `setState` was not called. 组件的状态改变了，但是没有调用setState。
      *
-     * This will not invoke `shouldComponentUpdate`, but it will invoke
+     * This will not invoke `shouldComponentUpdate`, but it will invoke 这不会调用“shouldComponentUpdate”，但它会调用
      * `componentWillUpdate` and `componentDidUpdate`.
      *
-     * @param {ReactClass} publicInstance The instance that should rerender.
-     * @param {?function} callback Called after component is updated.
-     * @param {?string} callerName name of the calling function in the public API.
+     * @param {ReactClass} publicInstance The instance that should rerender. 应该重新运行的实例。
+     * @param {?function} callback Called after component is updated. 组件更新后调用。
+     * @param {?string} callerName name of the calling function in the public API. 公共API中调用函数的名称。
      * @internal
      */
+    // 强制更新队列
     enqueueForceUpdate: function (publicInstance, callback, callerName) {
       warnNoop(publicInstance, 'forceUpdate');
     },
 
     /**
-     * Replaces all of the state. Always use this or `setState` to mutate state.
-     * You should treat `this.state` as immutable.
+     * Replaces all of the state. Always use this or `setState` to mutate state. 替换所有状态。总是使用这个或' setState '来改变状态。
+     * You should treat `this.state` as immutable.你应该把 this.state 是不变的
      *
-     * There is no guarantee that `this.state` will be immediately updated, so
-     * accessing `this.state` after calling this method may return the old value.
+     * There is no guarantee that `this.state` will be immediately updated, so  //There is no guarantee that `this.state` 会马上更新，所以呢
+     * accessing `this.state` after calling this method may return the old value. //访问 `this.state`  调用此方法后可能返回旧值。
      *
-     * @param {ReactClass} publicInstance The instance that should rerender.
-     * @param {object} completeState Next state.
-     * @param {?function} callback Called after component is updated.
-     * @param {?string} callerName name of the calling function in the public API.
+     * @param {ReactClass} publicInstance The instance that should rerender.  //应该重新运行的实例。
+     * @param {object} completeState Next state.  //下一个状态。
+     * @param {?function} callback Called after component is updated. //组件更新后调用。
+     * @param {?string} callerName name of the calling function in the public API. //公共API中调用函数的名称。
      * @internal
      */
+    //队列取代状态
     enqueueReplaceState: function (publicInstance, completeState, callback, callerName) {
       warnNoop(publicInstance, 'replaceState');
     },
 
     /**
-     * Sets a subset of the state. This only exists because _pendingState is
-     * internal. This provides a merging strategy that is not available to deep
-     * properties which is confusing. TODO: Expose pendingState or don't use it
-     * during the merge.
+     * Sets a subset of the state. This only exists because _pendingState is  设置状态的子集。因为_pendingState是
+     * internal. This provides a merging strategy that is not available to deep  内部的。这提供了一个深度不可用的合并策略
+     * properties which is confusing. TODO: Expose pendingState or don't use it  这是令人困惑的属性。要做的事情:暴露或不使用pendingState
+     * during the merge.  在合并。
      *
-     * @param {ReactClass} publicInstance The instance that should rerender.
-     * @param {object} partialState Next partial state to be merged with state.
-     * @param {?function} callback Called after component is updated.
-     * @param {?string} Name of the calling function in the public API.
+     * @param {ReactClass} publicInstance The instance that should rerender.  应该重新运行的实例。
+     * @param {object} partialState Next partial state to be merged with state.  下一个要与状态合并的部分状态。
+     * @param {?function} callback Called after component is updated. 组件更新后调用。
+     * @param {?string} Name of the calling function in the public API.  在公共API中的调用函数。
      * @internal
      */
+    // 设置队列state
     enqueueSetState: function (publicInstance, partialState, callback, callerName) {
       warnNoop(publicInstance, 'setState');
     }
   };
-
+  // 该Object.freeze()方法冻结对象。冻结的对象无法再更改；
   var emptyObject = {};
   {
     Object.freeze(emptyObject);
   }
 
   /**
-   * Base class helpers for the updating state of a component.
+   * Base class helpers for the updating state of a component.   用于更新组件状态的基类帮助程序。
    */
-  function Component(props, context, updater) {
-    debugger
+  function Component(
+    props,  //props 属性
+    context, //
+    updater  // 更新队列
+  ) {
     this.props = props;
     this.context = context;
-    // If a component has string refs, we will assign a different object later.
+    // If a component has string refs, we will assign a different object later.  如果一个组件有字符串引用，我们稍后将分配一个不同的对象。
     this.refs = emptyObject;
-    // We initialize the default updater but the real one gets injected by the
-    // renderer.
-    this.updater = updater || ReactNoopUpdateQueue;
+    // We initialize the default updater but the real one gets injected by the  方法初始化默认更新器，但实际更新器被注入
+    // renderer.  渲染器。 更新队列函数
+    this.updater = updater
+      || ReactNoopUpdateQueue; // 更新队列函数
+    console.log('Component', Component)
+  
   }
 
   Component.prototype.isReactComponent = {};
 
   /**
-   * Sets a subset of the state. Always use this to mutate
-   * state. You should treat `this.state` as immutable.
+   * Sets a subset of the state. Always use this to mutate   设置状态的子集。总是用这个来突变
+   * state. You should treat `this.state` as immutable. 状态。你应该把 `this.state` 是不可改变的。
    *
-   * There is no guarantee that `this.state` will be immediately updated, so
-   * accessing `this.state` after calling this method may return the old value.
+   * There is no guarantee that `this.state` will be immediately updated, so  没有人能保证“这一点”。状态'将立即更新，所以
+   * accessing `this.state` after calling this method may return the old value. 访问 `this.state` 调用此方法后可能返回旧值。
    *
-   * There is no guarantee that calls to `setState` will run synchronously,
-   * as they may eventually be batched together.  You can provide an optional
-   * callback that will be executed when the call to setState is actually
-   * completed.
+   * There is no guarantee that calls to `setState` will run synchronously,  无法保证对“setState”的调用会同步运行，
+   * as they may eventually be batched together.  You can provide an optional *因为它们最终可能会混合在一起。您可以提供一个可选的
+   * callback that will be executed when the call to setState is actually  回调，当调用setState是实际执行
+   * completed.  完成。
    *
-   * When a function is provided to setState, it will be called at some point in
-   * the future (not synchronously). It will be called with the up to date
-   * component arguments (state, props, context). These values can be different
-   * from this.* because your function may be called after receiveProps but before
-   * shouldComponentUpdate, and this new state, props, and context will not yet be
-   * assigned to this.
+   * When a function is provided to setState, it will be called at some point in  当一个函数被提供给setState时，它将在in中的某个点被调用
+   * the future (not synchronously). It will be called with the up to date   未来(不同步)。它将被称为最新的
+   * component arguments (state, props, context). These values can be different  组件参数(state、props、context)。这些值可以是不同的
+   * from this.* because your function may be called after receiveProps but before 从这个。*因为你的函数可能在receiveProps之后而在之前被调用
+   * shouldComponentUpdate, and this new state, props, and context will not yet be shouldComponentUpdate，这个新的状态、道具和上下文还没有
+   * assigned to this. 分配给 this
    *
-   * @param {object|function} partialState Next partial state or function to
-   *        produce next partial state to be merged with current state.
-   * @param {?function} callback Called after state is updated.
+   * @param {object|function} partialState Next partial state or function to  下一个部分状态或功能
+   *        produce next partial state to be merged with current state.   produce next partial state to be merged with current state.
+   * @param {?function} callback Called after state is updated. 状态更新后调用。
    * @final
    * @protected
    */
+  // 更新setState 函数
   Component.prototype.setState = function (partialState, callback) {
-    !(typeof partialState === 'object' || typeof partialState === 'function' || partialState == null) ? invariant(false, 'setState(...): takes an object of state variables to update or a function which returns an object of state variables.') : void 0;
+    // 判断 partialState 下一个状态值 如果不是object 或者 函数，或者是空的时候，那么则会报错
+    !(typeof partialState === 'object' || typeof partialState === 'function' || partialState == null) ?
+      invariant(false, 'setState(...): takes an object of state variables to update or a function which returns an object of state variables.') :
+      void 0;
+    // 更新 state 状态
     this.updater.enqueueSetState(this, partialState, callback, 'setState');
   };
 
   /**
-   * Forces an update. This should only be invoked when it is known with
-   * certainty that we are **not** in a DOM transaction.
+   * Forces an update. This should only be invoked when it is known with   部队一个更新。这应该只在它是已知的时候被调用
+   * certainty that we are **not** in a DOM transaction.  确定我们不是在一个DOM事务中。
    *
-   * You may want to call this when you know that some deeper aspect of the
-   * component's state has changed but `setState` was not called.
+   * You may want to call this when you know that some deeper aspect of the  你可能想要调用这个当你知道一些更深层次的方面
+   * component's state has changed but `setState` was not called.  组件的状态已更改，但未调用“setState”。
    *
-   * This will not invoke `shouldComponentUpdate`, but it will invoke
-   * `componentWillUpdate` and `componentDidUpdate`.
+   * This will not invoke `shouldComponentUpdate`, but it will invoke  这不会调用“shouldComponentUpdate”，但它会调用
+   * `componentWillUpdate` and `componentDidUpdate`.  更新组件生命周期函数
    *
-   * @param {?function} callback Called after update is complete.
+   * @param {?function} callback Called after update is complete.  更新完成后调用。
    * @final
    * @protected
    */
+  // 强制更新函数
   Component.prototype.forceUpdate = function (callback) {
     this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
   };
 
   /**
-   * Deprecated APIs. These APIs used to exist on classic React classes but since
-   * we would like to deprecate them, we're not going to move them over to this
-   * modern base class. Instead, we define a getter that warns if it's accessed.
+   * Deprecated APIs. These APIs used to exist on classic React classes but since  弃用api。这些api以前存在于经典的React类中，但现在已经不存在了
+   * we would like to deprecate them, we're not going to move them over to this  我们想要弃用它们，我们不打算把它们移到这里
+   * modern base class. Instead, we define a getter that warns if it's accessed. 现代的基类。相反，我们定义一个getter来警告它是否被访问。
    */
   {
     var deprecatedAPIs = {
-      isMounted: ['isMounted', 'Instead, make sure to clean up subscriptions and pending requests in ' + 'componentWillUnmount to prevent memory leaks.'],
-      replaceState: ['replaceState', 'Refactor your code to use setState instead (see ' + 'https://github.com/facebook/react/issues/3236).']
+      isMounted: ['isMounted', 'Instead, make sure to clean up subscriptions and pending requests in ' + 'componentWillUnmount to prevent memory leaks.'], //组件是否已经初始化好
+      replaceState: ['replaceState', 'Refactor your code to use setState instead (see ' + 'https://github.com/facebook/react/issues/3236).']  // 取代状态
     };
+    // 定义弃用警告  如果是使用废弃的aip isMounted和replaceState则发出警告
     var defineDeprecationWarning = function (methodName, info) {
+      // 监听 Component.prototype 组件的原型链
       Object.defineProperty(Component.prototype, methodName, {
         get: function () {
           lowPriorityWarning$1(false, '%s(...) is deprecated in plain JavaScript React classes. %s', info[0], info[1]);
@@ -515,6 +540,7 @@
         }
       });
     };
+    // 遍历是否使用了废弃的api
     for (var fnName in deprecatedAPIs) {
       if (deprecatedAPIs.hasOwnProperty(fnName)) {
         defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
@@ -526,28 +552,33 @@
   ComponentDummy.prototype = Component.prototype;
 
   /**
-   * Convenience component with default shallow equality check for sCU.
+   * Convenience component with default shallow equality check for sCU. 方便组件默认浅等检查sCU。
    */
   function PureComponent(props, context, updater) {
     this.props = props;
     this.context = context;
-    // If a component has string refs, we will assign a different object later.
+    // If a component has string refs, we will assign a different object later.  如果一个组件有字符串引用，我们稍后将分配一个不同的对象。
     this.refs = emptyObject;
     this.updater = updater || ReactNoopUpdateQueue;
   }
-
+  // 继承
   var pureComponentPrototype = PureComponent.prototype = new ComponentDummy();
+  // 指向 原来的构造函数 防止继承扰乱
   pureComponentPrototype.constructor = PureComponent;
-  // Avoid an extra prototype jump for these methods.
+  // Avoid an extra prototype jump for these methods.  避免这些方法的额外原型跳转。
+  // 浅拷贝原型链
   objectAssign(pureComponentPrototype, Component.prototype);
+
   pureComponentPrototype.isPureReactComponent = true;
 
   // an immutable object with a single mutable value
+  // 一个具有单个可变值的不可变对象
   function createRef() {
     var refObject = {
       current: null
     };
     {
+      // Object.seal()方法封闭一个对象，阻止添加新属性并将所有现有属性标记为不可配置。当前属性的值只要可写就可以改变。
       Object.seal(refObject);
     }
     return refObject;
@@ -564,7 +595,7 @@
   var LowPriority = 4;
   var IdlePriority = 5;
 
-  // Max 31 bit integer. The max integer size in V8 for 32-bit systems.
+  // Max 31 bit integer. The max integer size in V8 for 32-bit systems. 最大31位整数。32位系统的V8中的最大整数大小。
   // Math.pow(2, 30) - 1
   // 0b111111111111111111111111111111
   var maxSigned31BitInt = 1073741823;
@@ -578,22 +609,23 @@
   // Never times out
   var IDLE_PRIORITY = maxSigned31BitInt;
 
-  // Callbacks are stored as a circular, doubly linked list.
+  // Callbacks are stored as a circular, doubly linked list.  回调函数存储为循环的双链表。
   var firstCallbackNode = null;
 
   var currentDidTimeout = false;
-  // Pausing the scheduler is useful for debugging.
+  // Pausing the scheduler is useful for debugging. 暂停调度器对于调试非常有用。
   var isSchedulerPaused = false;
 
   var currentPriorityLevel = NormalPriority;
   var currentEventStartTime = -1;
   var currentExpirationTime = -1;
 
-  // This is set when a callback is being executed, to prevent re-entrancy.
+  // This is set when a callback is being executed, to prevent re-entrancy.  这是在执行回调时设置的，以防止重入。
   var isExecutingCallback = false;
 
   var isHostCallbackScheduled = false;
 
+  // window.performance 性能监控对象
   var hasNativePerformanceNow = typeof performance === 'object' && typeof performance.now === 'function';
 
   function ensureHostCallbackIsScheduled() {
