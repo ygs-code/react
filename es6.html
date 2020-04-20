@@ -6,9 +6,10 @@
   <title>Hello React!</title>
   <script src="./common/js/ajax.js"></script>
   <!--官方提供的 CDN 地址：-->
-  <script src="./common/js/react.development.v16.12.0.js"></script>
-  <script src="./common/js/react-dom.development.v16.12.0.js"></script>
+  <!-- <script src="./common/js/react.development.v16.12.0.js"></script>
+  <script src="./common/js/react-dom.development.v16.12.0.js"></script> -->
   <!-- <script src="./common/js/browser-polyfill.5.8.38.js"></script> -->
+  <script src="./common/js/react.v16.12.0.js"></script>
   <script src="./common/js/browser.5.8.38.js"></script>
 
 </head>
@@ -39,8 +40,9 @@
   <div id="example" class="lsft-box"></div>
   <textarea id="textarea" class='textarea right-box' ></textarea> 
 
-  <script src="./es6_code/es6_react_code/01/01.js" type="text/babel"></script>
-  <script  >
+  <script src="./es6_code/es6_react_code/04/04_01.js" type="text/babel"></script>
+  <!-- <script>
+ 
  var oTextarea= document.getElementById('textarea');
   setTimeout(() => {
     oTextarea.value=code
@@ -55,7 +57,7 @@
       url: "http://127.0.0.1:5000/createCode",
       type: 'post',
       data: {
-        path: '/es5_code/es5_react_code/01/01.js',
+        path: '/es5_code/es5_react_code/04/04_01.js',
         code: code,
       },
       dataType: 'json',
@@ -72,7 +74,7 @@
   }, 100);
 
  
-  </script>  
+  </script>   -->
 
 </body>
 

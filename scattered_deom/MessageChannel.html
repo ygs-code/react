@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //MessageChannel创建的新通道
+        var channel = new MessageChannel();
+        var port = channel.port2;
+        // 接受信息
+        channel.port1.onmessage = (data) => {
+            console.log(data.data)
+        };
+        setTimeout(() => {
+            port.postMessage('hello world')
+        }, 3000);
+    </script>
+</body>
+
+</html>

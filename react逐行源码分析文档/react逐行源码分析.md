@@ -1039,5 +1039,150 @@ es5.html 加载执行bable 转义后的 es5，bable 和 react源码
 
 
 
+## 日志函数
+
+### 警告日志函数
+
+#### printWarning
+
+```
+// 打印警告日志 
+    var printWarning = function (format) {
+      // 收集一个参数后面的信息
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      var argIndex = 0;
+      // 匹配字符串 %s 如果出现一个 %s则会替换掉，第一个参数，如果出现第二个 %s 就会替换掉 第二个参数 因为指针argIndex会加加
+      // 类似于 c 语言中的print
+      var message = 'Warning: ' + format.replace(/%s/g, function () {
+        console.log('args=', args)
+        return args[argIndex++];
+      });
+
+      if (typeof console !== 'undefined') {
+        console.warn(message);
+      }
+
+      try {
+        // --- Welcome to debugging React ---
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+      } catch (x) {}
+    };
+```
+
+#### lowPriorityWarningWithoutStack
+
+```
+ // 打印警告日志 
+    lowPriorityWarningWithoutStack = function (condition, format) {
+      if (format === undefined) {
+        throw new Error('`lowPriorityWarningWithoutStack(condition, format, ...args)` requires a warning ' + 'message argument');
+      }
+      // 收集两个参数以上的信息
+      if (!condition) {
+        for (var _len2 = arguments.length, args = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+          args[_key2 - 2] = arguments[_key2];
+        }
+        // 打印警告日志 
+        printWarning.apply(void 0, [format].concat(args));
+      }
+    };
+
+```
+
+### 红色错误日志
+
+#### warningWithoutStack和warningWithoutStack$1
+
+```
+ //打印错误红色错误日志
+    warningWithoutStack = function (
+      condition,  // 第一个参数必须是false 才会输出日志
+      format // 日志信息
+      ) {
+      // 如果参数大于两个的时候 除了前面两个组成一个数组
+      for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        args[_key - 2] = arguments[_key];
+      }
+
+      if (format === undefined) {
+        throw new Error('`warningWithoutStack(condition, format, ...args)` requires a warning ' + 'message argument');
+      }
+
+      if (args.length > 8) {
+        // Check before the condition to catch violations early. 在条件出现之前进行检查，尽早发现违规。
+        //目前最多支持8个参数。
+        throw new Error('warningWithoutStack() currently supports at most 8 arguments.');
+      }
+
+      if (condition) {
+        return;
+      }
+
+      if (typeof console !== 'undefined') {
+        var argsWithFormat = args.map(function (item) {
+          return '' + item;
+        });
+        argsWithFormat.unshift('Warning: ' + format); // We intentionally don't use spread (or .apply) directly because it
+        // breaks IE9: https://github.com/facebook/react/issues/13610
+       // 匹配字符串 %s 如果出现一个 %s则会替换掉，第一个参数，如果出现第二个 %s 就会替换掉 第二个参数  
+         // 类似于 c 语言中的print
+        Function.prototype.apply.call(console.error, console, argsWithFormat);
+      }
+
+      try {
+        // --- Welcome to debugging React ---
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        var argIndex = 0;
+        // 匹配字符串 %s 如果出现一个 %s则会替换掉，第一个参数，如果出现第二个 %s 就会替换掉 第二个参数 因为指针argIndex会加加
+         // 类似于 c 语言中的print
+        var message = 'Warning: ' + format.replace(/%s/g, function () {
+          return args[argIndex++];
+        });
+        // 抛出异常信息
+        throw new Error(message);
+      } catch (x) {}
+    };
+```
 
 
+
+## warnOnInvalidCallback
+
+判断回调函数是否为空，或者不是函数，则发出警告日志
+
+```
+  // 判断callback 是否存在 如果存在 不是回调函数 那么 就会警告，该函数是无效函数
+  function warnOnInvalidCallback(
+    callback,  //回调的函数
+    callerName //回到函数的名称
+    ) {
+    {
+    // 这个函数要么是空的  要么必须是函数
+      !(callback === null || typeof callback === "function")
+        // 打印出红色错误日志
+        ? 
+        warningWithoutStack$1(
+            false,
+            "%s(...): Expected the last optional `callback` argument to be a " +
+              "function. Instead received: %s.",
+            callerName,
+            callback
+          )
+        : void 0;
+    }
+  }
+```
+
+
+
+#  react 整个框架程序流程
+
+## 创建createElement 数据
+
+react 执行代码 实际上是会先调用createElement 创建一个vdon 数据

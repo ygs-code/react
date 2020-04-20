@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+     <script>
+            // 打印警告并且报错信息
+  var printWarning = function (format) {
+    // 收集一个参数后面的信息
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var argIndex = 0;
+    // 匹配字符串 %s 如果出现一个 %s则会替换掉，第一个参数，如果出现第二个 %s 就会替换掉 第二个参数 因为指针argIndex会加加
+    // 类似于 c 语言中的print
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+        console.log('args=',args)
+      return args[argIndex++];
+    });
+
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+  printWarning('这个 一个 错误的 信息 %s  wer' ,'a','b','c')
+
+        </script>
+</body>
+</html>
