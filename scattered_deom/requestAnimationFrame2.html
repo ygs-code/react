@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+ <style>
+     #d{
+         width: 100px;
+         height: 100px;
+         position: absolute;
+         background: red;
+         left: 0px;
+     }
+ </style>
+<body>
+    <div id='d'>
+
+    </div>
+    <script>
+         /*
+         成熟做法：
+
+引入requestAnimationFrame，这个方法是用来在页面重绘之前，通知浏览器调用一个指定的函数，以满足开发者操作动画的需求。
+
+这个函数类似setTimeout，只调用一次。
+         
+         */
+//   function draw() { 
+//         requestAnimationFrame(draw); 
+//         // ... Code for Drawing the Frame ... 
+// }
+      /*
+      
+      递归调用，就可以实现定时器。
+
+但是，这样完全跟浏览器帧频同步了，无法自定义动画的帧频，是无法满足需求的。
+      */
+let startTime = new Date().getTime();  
+let endTime=0
+function 　 draw( ) {
+    endTime=new Date().getTime()-startTime;
+    console.log('endTime=',endTime)
+    // for(var i=0;i<1000;i++){}
+    
+}
+
+//   var fps = 1;
+// function tick() {
+// 　　setTimeout(function() {
+// 　　　　requestAnimationFrame(tick);
+// 　　　　draw(); // ... Code for Drawing the Frame ...
+//     // console.log(1)
+// 　　}, 1000 / fps);
+// }
+// tick();
+
+
+
+var fps = 1;
+var now;
+var then = Date.now();  // 开始获得现在当前时间
+var interval = 1000/fps; // 帧频
+var delta;
+
+function tick() {
+    //这里不断的让他不停的回调
+　　requestAnimationFrame(tick);
+　　now = Date.now(); // 获得现在当前时间
+　　delta = now - then;//
+//    console.log('delta=',delta)
+   // 我们判断这个回调函数 如果两个时间大于我们设置的 帧频 的时候才让他调绘画动画
+   //  interval=10   10.5 然后下一次动画执行时间是 9.5 这里有补够差 就不会延迟这么多了
+　　if (delta > interval) {
+　　　　// 这里不能简单then=now，否则还会出现上边简单做法的细微时间差问题。
+     //例如fps=10，每帧100ms，而现在每16ms（60fps）执行一次draw。16*7=112>100，
+     //需要7次才实际绘制一次。
+     //这个情况下，实际10帧需要112*10=1120ms>1000ms才绘制完成。
+     　draw(); // ... Code for Drawing the Frame ...
+    console.log('delta % interval=',delta % interval)　　　
+     then = now - (delta % interval);
+ 
+　　　
+　　}
+}
+tick();
+
+    </script>
+</body>
+
+</html>
