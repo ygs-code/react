@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,4 +63,70 @@ Function.prototype.apply.call(console.log, console, [
  
  </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        var warningWithoutStack = function () {};
+
+{
+  warningWithoutStack = function (condition, format) {
+    for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      args[_key - 2] = arguments[_key];
+    }
+
+    if (format === undefined) {
+      throw new Error('`warningWithoutStack(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+
+    if (args.length > 8) {
+      // Check before the condition to catch violations early.
+      throw new Error('warningWithoutStack() currently supports at most 8 arguments.');
+    }
+
+    if (condition) {
+      return;
+    }
+   debugger;
+    if (typeof console !== 'undefined') {
+      var argsWithFormat = args.map(function (item) {
+        return '' + item;
+      });
+      argsWithFormat.unshift('Warning: ' + format); // We intentionally don't use spread (or .apply) directly because it
+      // breaks IE9: https://github.com/facebook/react/issues/13610
+      console.log('argsWithFormat=',argsWithFormat)
+      console.log('format=',format)
+      Function.prototype.apply.call(console.error, console, argsWithFormat);
+      debugger
+    }
+
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+    //   var argIndex = 0;
+    //   var message = 'Warning: ' + format.replace(/%s/g, function () {
+    //     return args[argIndex++];
+    //   });
+    //   throw new Error(message);
+    } catch (x) {}
+  };
+}
+warningWithoutStack(null,'你好,我叫%s,今年%s','姚观寿','28')
+
+Function.prototype.apply.call(console.log, console, [
+'你好,我叫%s,今年%s','姚观寿','28'
+]);
+ 
+ </script>
+</body>
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 </html>

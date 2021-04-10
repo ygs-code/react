@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 "use strict";
+=======
+'use strict';
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 
 var _slicedToArray = (function() {
     function sliceIterator(arr, i) {
@@ -16,7 +20,11 @@ var _slicedToArray = (function() {
             _e = err;
         } finally {
             try {
+<<<<<<< HEAD
                 if (!_n && _i["return"]) _i["return"]();
+=======
+                if (!_n && _i['return']) _i['return']();
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
             } finally {
                 if (_d) throw _e;
             }
@@ -29,11 +37,16 @@ var _slicedToArray = (function() {
         } else if (Symbol.iterator in Object(arr)) {
             return sliceIterator(arr, i);
         } else {
+<<<<<<< HEAD
             throw new TypeError("Invalid attempt to destructure non-iterable instance");
+=======
+            throw new TypeError('Invalid attempt to destructure non-iterable instance');
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
         }
     };
 })();
 
+<<<<<<< HEAD
 var Show = function Show(props) {
     var flag = props.flag;
 
@@ -60,12 +73,18 @@ var Show = function Show(props) {
 
 var LazyPage = function LazyPage() {
     var _React$useState = React.useState("zhangsan");
+=======
+var LazyPage = function LazyPage() {
+    var _React$useState = React.useState('zhangsan');
+    console.log('_React$useState=',_React$useState)
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 
     var _React$useState2 = _slicedToArray(_React$useState, 2);
 
     var name = _React$useState2[0];
     var setName = _React$useState2[1];
 
+<<<<<<< HEAD
     var _React$useState3 = React.useState(true);
 
     var _React$useState32 = _slicedToArray(_React$useState3, 2);
@@ -99,6 +118,19 @@ var LazyPage = function LazyPage() {
         ),
         React.createElement("input", {
             type: "text",
+=======
+    return React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'p',
+            null,
+            'My Name is: ',
+            name
+        ),
+        React.createElement('input', {
+            type: 'text',
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
             value: name,
             onChange: function(e) {
                 return setName(e.target.value);
@@ -107,4 +139,8 @@ var LazyPage = function LazyPage() {
     );
 };
 
+<<<<<<< HEAD
 ReactDOM.render(React.createElement(LazyPage, null), document.getElementById("example"));
+=======
+ReactDOM.render(React.createElement(LazyPage, null), document.getElementById('example'));
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,4 +61,68 @@
   describeComponentFrame('abc',source,true)
   </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var source={
+            fileName:'d:/test/cod/cc/gggg'
+        }
+        // 匹配到开头是任何 0次或者多次  是含有 /\的路径
+   var BEFORE_SLASH_RE = /^(.*)[\\\/]/;
+    // / 返回 index.js 来源路径和信息     比如 src/index.js 
+  var describeComponentFrame = function(
+      name, // 名称
+      source, // 来源
+      ownerName //主人的名字
+   ) {
+    var sourceInfo = "";
+
+    if (source) {
+      var path = source.fileName;
+      // 去除掉前缀路径
+      var fileName = path.replace(BEFORE_SLASH_RE, "");
+      console.log('BEFORE_SLASH_RE=',path.match(BEFORE_SLASH_RE))
+      console.log('fileName=',fileName)
+
+      {
+        // In DEV, include code for a common special case:
+        // prefer "folder/index.js" instead of just "index.js".
+        if (/^index\./.test(fileName)) {
+          var match = path.match(BEFORE_SLASH_RE);
+          console.log('match=',match)
+
+          if (match) {
+            var pathBeforeSlash = match[1];
+
+            if (pathBeforeSlash) {
+              var folderName = pathBeforeSlash.replace(BEFORE_SLASH_RE, "");
+              console.log('folderName=',folderName)
+              // 获取到可以说是index. 和src    src/index.js 
+              fileName = folderName + "/" + fileName;
+              console.log('fileName=',fileName)
+            }
+          }
+        }
+      }
+
+      sourceInfo = " (at " + fileName + ":" + source.lineNumber + ")";
+    } else if (ownerName) {
+      sourceInfo = " (created by " + ownerName + ")";
+    }
+    // 返回 index 来源路径和信息
+    return "\n    in " + (name || "Unknown") + sourceInfo;
+  };
+
+  describeComponentFrame('abc',source,true)
+  </script>
+</body>
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 </html>

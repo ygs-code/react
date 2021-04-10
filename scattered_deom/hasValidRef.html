@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,4 +68,75 @@
     </script>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var o = {
+
+        };
+        var bValue=1
+        Object.defineProperty(o, "ref", {
+            get: function () {
+                return bValue;
+            },
+            set: function (newValue) {
+                bValue = newValue;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        // 判断对象属性是否是构造函数实例化的
+        var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
+       
+
+
+       /*
+        判断config 中有没有 使用Object.defineProperty()添加描述属性 为ref
+        var config= {
+
+        };
+        var bValue=1
+        Object.defineProperty(config, "ref", {
+            get: function () {
+                return bValue;
+            },
+            set: function (newValue) {
+                bValue = newValue;
+            },
+            enumerable: true,
+            configurable: true
+        });
+ 
+        如果 config 有做过这样的添加过ref 那么他返回值则为真
+         
+       */
+        function hasValidRef(config) {
+            {
+                if (hasOwnProperty$1.call(config, 'ref')) {
+                    var getter = Object.getOwnPropertyDescriptor(config, 'ref').get;
+                    console.log('getter=',getter)
+
+                    if (getter && getter.isReactWarning) {
+                        return false;
+                    }
+                }
+            }
+
+            return config.ref !== undefined;
+        }
+        console.log(hasValidRef(o))
+    </script>
+</body>
+
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -127,4 +128,135 @@
     </script>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Node(data, left, right) {
+            this.data = data; // 数据
+            this.left = left; //左边
+            this.right = right; // 右边
+            this.show = show; // 显示
+            
+        }
+
+        function show() { //
+            return this.data;
+        }
+
+        function BST() {
+            this.root = null; // 顶节点
+            this.insert = insert; // 插入值
+            this.getMin = getMin; // 查找最小值
+            this.getMax = getMax; //查找最大值
+            this.find=find; //查找二叉树值
+            this.inOrder = inOrder; //输出二叉树
+        }
+
+
+        function getMin() {
+            // 找到最左边的节点
+            var current = this.root;
+            while (!(current.left == null)) {
+                current = current.left;
+            }
+            return current.data;
+        }
+
+        function getMax() {
+            // 找到最右边的节点
+            var current = this.root;
+            while (!(current.right == null)) {
+                current = current.right;
+            }
+            return current.data;
+        }
+
+
+        // 插入数据，根据判断当前数据与上一级数据，如果当前插入数据小于当前上一级数据的时候插入左边否则右边
+        function insert(data) { // 插入节点
+            var n = new Node(data, null, null);
+            if (this.root == null) { // 根节点
+                this.root = n; // 设置根节点
+            } else {
+                var current = this.root; // 当前节点
+                var parent; // 父节点
+                while (true) {
+                    parent = current;
+                    // 如果新的节点数据小于 当前节点 
+                    if (data < current.data) {
+                        // 不断的查找二差树左边知道查找到左边没有值的子节点
+                        current = current.left;
+                        // 如果二叉树左边没有值那么就把他插入到数据的左边
+                        if (current == null) {
+                            parent.left = n;
+                            break;
+                        }
+                    } else { // 如果新的节点数据大于 当前节点 
+                        current = current.right;
+                        if (current == null) {
+                            // 那么就把他插入到数据的右边
+                            parent.right = n;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+       // 查找二叉树值
+        function find(data) {
+            var current = this.root;
+            while (current != null) {
+                if (current.data == data) { //如果相等返回结果
+                    return current;
+                } else
+                if (data < current.data) { //如果当前值比现在值还小那么往左边找
+                    current = current.left;
+                }else {//如果当前值比现在值还大那么往右边找
+                    current = current.right;
+                }
+            }
+            return null;
+        }
+
+
+
+        function inOrder(node) {
+            if (!(node == null)) {
+                inOrder(node.left);
+                console.log(node.show() + " ");
+                inOrder(node.right);
+            }
+        }
+
+
+        var nums = new BST();
+
+        nums.insert(23);
+
+        nums.insert(45);
+        nums.insert(16);
+        nums.insert(99);
+        nums.insert(37);
+        nums.insert(3);
+
+        nums.insert(22);
+        console.log('nums.root=', nums.root)
+        inOrder(nums.root);
+        console.log(nums.getMin())
+        console.log(nums.getMax())
+    </script>
+</body>
+
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 </html>

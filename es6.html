@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 
@@ -78,4 +79,86 @@
 
 </body>
 
+=======
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello React!</title>
+  <script src="./common/js/ajax.js"></script>
+  <!--官方提供的 CDN 地址：-->
+  <!-- <script src="./common/js/react.development.v16.12.0.js"></script>
+  <script src="./common/js/react-dom.development.v16.12.0.js"></script> -->
+  <!-- <script src="./common/js/browser-polyfill.5.8.38.js"></script> -->
+  <script src="./common/js/react.v16.12.0.js"></script>
+  <script src="./common/js/browser.5.8.38.js"></script>
+
+</head>
+<style>
+  .lsft-box{
+    float: left;
+    width: 48%;
+    height: 100vh;
+  }
+  .right-box{
+    float: right;
+    width: 48%;
+    height: 100vh;
+  }
+  *{
+    padding: 0;
+    margin: 0;
+  }
+  .textarea{
+    font-size: 18px;
+    display: block;
+    /* width: 100%;
+    height: 100vh; */
+  }
+</style>
+<body>
+
+  <div id="example" class="lsft-box"></div>
+  <textarea id="textarea" class='textarea right-box' ></textarea> 
+
+  <script src="./es6_code/es6_react_code/04/04_01.js" type="text/babel"></script>
+  <!-- <script>
+ 
+ var oTextarea= document.getElementById('textarea');
+  setTimeout(() => {
+    oTextarea.value=code
+    var oldCode = window.localStorage.getItem('code');
+    // 如果同样代码 则不会在发送请求
+    if(oldCode===code){
+      return false
+    }
+    window.localStorage.setItem('code',code);
+   //把代码发送到服务器
+    ajax({
+      url: "http://127.0.0.1:5000/createCode",
+      type: 'post',
+      data: {
+        path: '/es5_code/es5_react_code/04/04_01.js',
+        code: code,
+      },
+      dataType: 'json',
+      timeout: 10000,
+      contentType: "application/json",
+      success: function (data) {
+        console.log('data====',data)
+      },
+      //异常处理
+      error: function (e) {
+        console.log(e);
+      }
+    })
+  }, 100);
+
+ 
+  </script>   -->
+
+</body>
+
+>>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 </html>
