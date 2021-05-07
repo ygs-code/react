@@ -1,4 +1,11 @@
-<<<<<<< HEAD
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 12:29:53
+ * @LastEditTime: 2021-05-06 12:33:11
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/getIteratorFn.html
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,63 +63,4 @@ var nextNamePrefix='';
         }
   </script>
 </body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <script>
-   var MAYBE_ITERATOR_SYMBOL = typeof Symbol === "function" && Symbol.iterator;
-  var FAUX_ITERATOR_SYMBOL = "@@iterator";
-
-  // 类似于Generator 函数的语法 意思 返回迭代器
-  function getIteratorFn(maybeIterable) {
-    // 必须不能为空，并且需要是对象
-    if (maybeIterable === null || typeof maybeIterable !== 'object') {
-      return null;
-    }
-
-    var maybeIterator = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] ||
-      maybeIterable[FAUX_ITERATOR_SYMBOL];
-
-    if (typeof maybeIterator === 'function') {
-      return maybeIterator;
-    }
-
-    return null;
-  }
-var children=[
-    {
-        value:1
-    },
-    {
-        value:2
-    },
-    {
-        value:3
-    }
-]
-var nextNamePrefix='';
-    // 类似于Generator 函数的语法 意思 返回迭代器 自定义一个迭代器
-    var iteratorFn = getIteratorFn(children);
-    var iterator = iteratorFn.call(children);
-        var step;
-        var ii = 0;
-
-        while (!(step = iterator.next()).done) {
-          child = step.value; // 下一个dom 值
-          console.log('child=',child)
-            // 获取组件的kye
-          nextName = nextNamePrefix + child;
-          console.log('nextName=',nextName)
-         
-        }
-  </script>
-</body>
->>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 </html>

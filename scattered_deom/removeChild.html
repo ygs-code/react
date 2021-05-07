@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,55 +47,4 @@
         console.log(container)
         </script> 
 </body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <div id='div'> 
-        <div>
-            1
-            <div>1-1</div>
-            <div>1-2</div>
-            <div>1-3</div>
-        </div>
-        <div>
-            <div>2-1</div>
-            <div>2-2</div>
-            <div>2-3</div>
-        </div>
-        <div>3
-            <div>3-1</div>
-            <div>3-2</div>
-            <div>3-3</div> 
-        </div>
-    </div>
-     <script>
-        var container= document.getElementById('div')
-        var rootSibling=null;
-        while ((rootSibling = container.lastChild)) {
-        {
-          
-            warned = true;
-              // 打印出红色错误日志
-            console.log(
-            
-              "render(): Target node has markup rendered by React, but there " +
-                "are unrelated nodes as well. This is most commonly caused by " +
-                "white-space inserted around server-rendered markup."
-            );
-          
-        }
-
-        container.removeChild(rootSibling);
-      }
-        console.log(container)
-        </script> 
-</body>
->>>>>>> 46e5d654750168326619cd5ec4cf48a1c0506d86
 </html>
