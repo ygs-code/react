@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-05-06 12:29:53
+ * @LastEditTime: 2021-05-07 10:02:10
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /react/es6_code/es6_react_code/04/04_01.js
+ */
 // import React, { useState, useEffect } from 'react'
 
 const Show =(props)=>{
