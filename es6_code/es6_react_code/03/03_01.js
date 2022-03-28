@@ -1,4 +1,3 @@
-     console.log('props===',props)
 
 // 创建一个 theme Context,  默认 theme 的值为 light
 const ThemeContext = React.createContext();
