@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello React!</title>
+
+
+</head>
+
+<body>
+
+  <script>
+
+    /*
+    
+      假设 $scope是在ng中的data中
+      ng.data={
+         $scope:{
+           root:'root'
+         } ,
+          $state:{
+           status:'1'
+          },
+          http:{}
+      }
+     请实现ng类和ng.controller
+    */
+    ng.controller(function ($scope, $state) {
+      console.log('$scope=', $scope)
+      console.log(' $state=', $state)
+    });
+    //
+    ng.controller(function ($state, $scope,) {
+      console.log('$scope=', $scope)
+      console.log(' $state=', $state)
+
+    });
+
+    ng.controller(function (a, $state, b, c, $scope,) {
+      console.log('$scope=', $scope)
+      console.log(' $state=', $state)
+    });
+    //都输出ng中的data 中的$scope和$state
+
+
+  </script>
+</body>
+
+
+</html>

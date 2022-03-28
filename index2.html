@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello React!</title>
+  <!--官方提供的 CDN 地址：-->
+  <script src="./common/js/react.development.v16.12.0.js"></script>
+  <script src="./common/js/react-dom.development.v16.12.0.js"></script>
+  <script src="./common/js/browser-polyfill.5.8.38.js"></script>
+  <script src="./common/js/browser.5.8.38.js"></script>
+
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  #text {
+    /* width: 500px; */
+    /* height: 300px; */
+  }
+
+  .left-box {
+    float: left;
+    width: 45%;
+  }
+
+  .right-box {
+    float: right;
+    width: 45%;
+    height: 700px;
+    /* background: red; */
+  }
+
+  textarea {
+    width: 100%;
+    height: 400px;
+  }
+
+  p {
+    margin: 20px;
+  }
+
+  button {
+    width: 80px;
+    padding: 10px;
+  }
+</style>
+
+<body>
+  <div class="box">
+    <div class='left-box'>
+      <p>代码编辑窗口</p>
+      <textarea id='text'></textarea>
+      <button id='but'>
+        执行Code
+      </button>
+      <div id='parser'>
+
+      </div>
+    </div>
+    <div class='right-box'>
+      <div>
+        <p>标准组件demo代码</p>
+        <textarea>
+              const H=()=>{
+                return   (<h1> 这 个 是 标 题 1</h1>)
+              }
+
+            class Clock extends React.Component {
+                constructor (props) {
+                    super(props);
+                    this.state = { date:"2019-1-1", count: 10 };
+                }
+                addCount() {
+                    const { count } = this.state;
+                    this.setState({
+                        count: count + 1,
+                    })
+                }
+                render() {
+                    const { date, count } = this.state;
+                    return (
+                        <div>
+                            <h1>Hello, world!</h1>
+                            <H/>
+                            <h2>现在是 {date}</h2>
+                            <button onClick={() => this.addCount()}>add1 count</button>
+                            <button onClick={this.addCount.bind(this)}>add2 count</button>
+                            <h2>count {count}</h2>
+                        </div>
+                    );
+                }
+            }
+            export default  Clock;
+          </textarea>
+        <p>模板组件 demo 代码</p>
+        <textarea>
+              render(date,count) {
+                return (
+                    <div>
+                        <h1>Hello, world!</h1>
+                        <h2>现在是 {date}</h2>
+                        <h2>count {count}</h2>
+                    </div>
+                );
+            }
+          </textarea>
+      </div>
+    </div>
+  </div>
+  <script type="text/babel">
+
+    var text = document.getElementById('text')
+    var but = document.getElementById('but')
+
+
+    var Tool = {
+      noop: () => { },
+      //把字符串 转成真正的js 并且以一个函数形式导出去
+      createFunction: (code, errors = []) => {
+        try {
+          return new Function(code).bind(this)
+        } catch (err) {
+          console.log('err', err)
+          errors.push({ err: err, code: code });
+          return noop
+        }
+      },
+
+      getExportDefaulComponentName: (code = '') => {
+        const exportDefaultComponentNameReg = /export\s+default\s+[a-zA-Z]+/g;
+        const exportDefault = /export\s+default\s+/g;
+        let exportDefaultComponentName = code.match(exportDefaultComponentNameReg);
+        if (exportDefaultComponentName && exportDefaultComponentName.length === 1) {
+          exportDefaultComponentName = exportDefaultComponentName[0].replace(exportDefault, '')
+          console.log('exportDefaultComponentName', exportDefaultComponentName)
+          return {
+            exportDefaultComponentName,
+            code: code.replace(exportDefaultComponentNameReg, '')
+          }
+        } else if (exportDefaultComponentName && exportDefaultComponentName.length >= 1) {
+          console.log('\x1B[31m%s\x1B[0m', 'This is export  default  Only one export is allowed')
+          // throw ('This is export  default  Only one export is allowed');
+          return {}
+        } else {
+          console.log('\x1B[31m%s\x1B[0m', 'It is an error not to export default Components')
+          // throw ('It is an error not to export default Components');
+          return {}
+        }
+      },
+
+      checkTemplate: ({
+        code, tagId, data = {}
+      }) => {
+        const classComponentReg = /class\s+[a-zA-Z]+\s+extends\s+React.Component/g;
+        const templateReg = /render\s*\(.*\)\s*{/g;
+        const renderHeadCode = code.match(templateReg)
+        if (classComponentReg.test(code)) {
+          Tool.componentReactDOMJoin({ code, tagId, data });
+        } else if (renderHeadCode && renderHeadCode.length >= 1) {
+          Tool.templateReactDOMJoin({ code, tagId, data, renderHeadCode: renderHeadCode[0] });
+        }
+      },
+
+
+      runScript: (newCode) => {
+        // 执行react 代码
+        transform.run(newCode)
+      },
+
+      componentReactDOMJoin: ({
+        code, tagId, data = {}
+      }) => {
+        //  try {
+        let { code: newCode = '', exportDefaultComponentName = '' } = Tool.getExportDefaulComponentName(code);
+        if (!newCode || !exportDefaultComponentName) {
+          return null;
+        }
+        newCode = newCode + ';   ReactDOM.render(<' + exportDefaultComponentName + '/>,document.getElementById("' + tagId + '"))'
+        Tool.runScript(newCode)
+        return newCode;
+        //  }catch (err) {
+        //   console.log('\x1B[31m%s\x1B[0m', err)
+        // }
+      },
+
+      getRenderParameterName({
+        code, tagId, data, renderHeadCode
+      }) {
+        const parameter = renderHeadCode.substring(renderHeadCode.indexOf("(") + 1, renderHeadCode.indexOf(")"))
+        if (parameter.trim() === '') {
+          console.log('\x1B[31m%s\x1B[0m', 'Please add  Template  render function  parameter')
+          return {};
+        }
+        return {
+          parameter: parameter.split(','),
+          code: code.replace(parameter, ''),
+          renderHeadCode: renderHeadCode.replace(parameter, '')
+        }
+      },
+
+      checkStateKey: ({ parameter, data }) => {
+        const errorInfo = [];
+        const state = {};
+        let stateStrKey = `{`
+        parameter.map(key => {
+          let flag = null;
+          for (let _key in data) {
+            if (_key.trim() === key.trim()) {
+              flag = key;
+            }
+          }
+          if (!flag) {
+            console.log('\x1B[31m%s\x1B[0m', `error, The data is no ${key} parameter`)
+            errorInfo.push(`error, The data is no ${key} parameter`)
+            return false;
+          }
+          state[key.trim()] = data[key.trim()];
+          stateStrKey += `${key},`
+        })
+        return errorInfo.length >= 1 ? {} : {
+          stateStrKey: `${stateStrKey}}`,
+          state
+        };
+      },
+
+      templateReact: ({
+        code, tagId, data, renderHeadCode
+      }) => {
+        const { code: newCode, parameter, renderHeadCode: newRenderHeadCode } = Tool.getRenderParameterName({ code, tagId, data, renderHeadCode })
+        if (!parameter) {
+          return false;
+        }
+        let { state, stateStrKey } = Tool.checkStateKey({ parameter, data });
+        if (!state) {
+          return false;
+        }
+        state = JSON.stringify(state)
+        const returnLastStr = newCode.trim().substring(newRenderHeadCode.trim().length);
+        let renderStr = `
+        render() {
+          const  ${stateStrKey} = this.state;
+            ${returnLastStr}
+           `
+        const template = `
+            class App extends React.Component {
+                constructor (props) {
+                    super(props);
+                    this.state =  ${
+          state
+          }
+                }
+
+                ${renderStr}
+            }
+            export default  App;
+          `
+
+        Tool.componentReactDOMJoin({ code: template, tagId, data });
+      },
+      templateReactDOMJoin: ({
+        code, tagId, data = {}, renderHeadCode
+      }) => {
+        Tool.templateReact({ code, tagId, data, renderHeadCode })
+      },
+      parseStyle: (code) => {
+        //  const styleStartReg=//g;
+        //  const styleEndReg='<style';
+      },
+      reactComponentParser({
+        code, tagId, data = {}
+      }) {
+        if (!code.trim()) {
+          console.log('\x1B[31m%s\x1B[0m', 'Please enter the react code')
+          return false;
+        }
+        if (!tagId.trim()) {
+          console.log('\x1B[31m%s\x1B[0m', 'Please write  tagId')
+          return false;
+        }
+        // Tool.parseStyle(code);
+
+        Tool.checkTemplate({
+          code, tagId, data
+        });
+      }
+
+
+    }
+    but.addEventListener('click', () => {
+      Tool.reactComponentParser({
+        code: text.value,
+        // code: code2,
+        tagId: 'parser',
+        data: {
+          date: new Date(),
+          count: 100
+        }
+      });
+    })
+  </script>
+</body>
+</html>

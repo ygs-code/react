@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+   <script>
+
+  /* eslint-disable no-unused-vars */
+  //在给定对象自身上找到的所有 Symbol 属性的数组。
+  var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+  //  方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。 不包含 原型链的 key
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+  // ss方法返回一个布尔值，表示指定的属性是否可枚举。
+  var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+  let key1=Symbol('another symbol')
+ let key2=Symbol()
+
+       var obj={
+        name:'yao guan shou',
+        [key1]:'yulin'
+      }
+        // 转换成一个对象
+  function toObject(val) {
+    if (val === null || val === undefined) {
+      throw new TypeError('Object.assign cannot be called with null or undefined');
+    }
+
+    return Object(val);
+  }
+         // 如果v8中的 枚举顺序是正常的 那么就用Object.assign  如果不正则则使用自己实现的方法
+  var objectAssign =  function (target, source) {
+    var from;
+    // 转换成对象
+    var to = toObject(target);
+    var symbols;
+    // 遍历参数
+    for (var s = 1; s < arguments.length; s++) {
+      from = Object(arguments[s]);
+
+      for (var key in from) {
+        if (hasOwnProperty.call(from, key)) {
+          to[key] = from[key];
+        }
+      }
+
+      if (getOwnPropertySymbols) {
+        symbols = getOwnPropertySymbols(from);
+        console.log('symbols',symbols)
+        for (var i = 0; i < symbols.length; i++) {
+          if (propIsEnumerable.call(from, symbols[i])) {
+            to[symbols[i]] = from[symbols[i]];
+          }
+        }
+      }
+    }
+
+    return to;
+  };
+  console.log(objectAssign(obj,
+                              {
+                                age:28,
+                                [key2]:'nan ning'
+                              }
+                            ))
+
+    </script>
+</body>
+</html>

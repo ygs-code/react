@@ -1,0 +1,24 @@
+{
+  "name": "react_demo",
+  "version": "1.1.1",
+  "description": "react 逐行源码分析",
+  "main": "react-dom.15.5.4.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qq281113270/react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qq281113270/react/issues"
+  },
+  "homepage": "https://github.com/qq281113270/react#readme",
+  "devDependencies": {
+    "js-beautify": "^1.10.3",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}
