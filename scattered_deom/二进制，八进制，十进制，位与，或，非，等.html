@@ -1,0 +1,76 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-10 14:53:12
+ * @LastEditTime: 2021-05-11 15:04:29
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/|.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //http://c.biancheng.net/view/5469.html
+      //“&”运算符
+      // “&”运算符（位与）用于对两个二进制操作数逐位进行比较，并根据下表所示的换算表返回结果。
+      console.log("1 & 0=", 1 & 0);
+      console.log("0 & 1=", 0 & 1);
+      console.log("1 & 1=", 1 & 1);
+      console.log("0 & 0=", 0 & 0);
+
+      //“|”运算符
+      // “|”运算符（位或）用于对两个二进制操作数逐位进行比较，并根据如表格所示的换算表返回结果。
+      console.log("1 | 0=", 1 | 0);
+      console.log("0 | 1=", 0 | 1);
+      console.log("1 | 1=", 1 | 1);
+      console.log("0 | 0=", 0 | 0);
+
+      //“^”运算符
+      // “^”运算符（位异或）用于对两个二进制操作数逐位进行比较，并根据如表格所示的换算表返回结果。
+      console.log("1  ^  0=", 1 ^ 0);
+      console.log("0  ^  1=", 0 ^ 1);
+      console.log("1  ^  1=", 1 ^ 1);
+      console.log("0  ^  0=", 0 ^ 0);
+
+      /*
+        “~”运算符
+        “~”运算符（位非）用于对一个二进制操作数逐位进行取反操作。
+        第 1 步：把运算数转换为 32 位的二进制整数。
+        第 2 步：逐位进行取反操作。
+        第 3 步：把二进制反码转换为十进制浮点数。
+      */
+
+      console.log('~ 0 =', ~ 0 );  //返回值-1    -1-x ?
+      console.log('~ 1 =', ~ 1 );  //返回值-2
+      console.log('~ 2 =', ~ 2 );  //返回值-3
+      console.log('~ 3 =', ~ 3 );  //返回值-4
+      console.log('~ 4 =', ~ 4 );  //返回值-5
+      console.log('~ 5 =', ~ 5 );  //返回值-6
+      console.log('~ 12 =', ~ 12 );  //返回值-13
+
+      var num = 100;
+      //十进制转换为二进制：
+      console.log("十进制转换为二进制：", num.toString(2));
+      //二进制转十进制：
+      console.log("二进制转十进制：", parseInt(num, 2));
+      console.log("八进制转十进制", parseInt(num, 8)); //八进制转十进制
+      console.log("十六进制转十进制:", parseInt(num, 16)); //十六进制转十进制
+      console.log("十进制转八进制", parseInt(num).toString(8)); //十进制转八进制
+      console.log("十进制转十六进制", parseInt(num).toString(16)); //十进制转十六进制
+      console.log("二进制转八进制", parseInt(num, 2).toString(8)); //二进制转八进制
+      console.log("二进制转十六进制", parseInt(num, 2).toString(16)); //二进制转十六进制
+      console.log("八进制转二进制", parseInt(num, 8).toString(2)); //八进制转二进制
+      console.log("八进制转十六进制", parseInt(num, 8).toString(16)); //八进制转十六进制
+      console.log("十六进制转二进制", parseInt(num, 16).toString(2)); //十六进制转二进制
+      console.log("十六进制转八进制", parseInt(num, 16).toString(8)); //十六进制转八进制
+    
+      // console.log(2|4)
+    </script>
+  </body>
+</html>

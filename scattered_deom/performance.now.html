@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 12:29:53
+ * @LastEditTime: 2021-05-10 15:47:23
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/performance.now.html
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +16,15 @@
 </head>
 <body>
     <script>
+  //https://developer.mozilla.org/zh-CN/docs/Web/API/DOMHighResTimeStamp
+// 如果你需要确定从代码中某处开始经过了多少时间，可以执行以下操作：
+// 这种类型可以用来描述离散的时间点或者一段时间（两个离散时间点之间的时间差）。
+// 这种基于毫秒精度的时间，应该精确到5微秒级别，其数值的小数部分代表了一个毫秒的小数（也就是微秒）。
+// 但是，如果浏览器不能提供精确到5微秒的时间值(例如,由于硬件或软件的限制)，由浏览器首选项控制的降低时间精度，
+// let startTime = performance.now();
+// /* ... do things for a while ... */
+// let elapsedTime = performance.now() - startTime;
+
        if (typeof performance === 'object' && typeof performance.now === 'function') {
       getCurrentTime = function () {
         // 获取当前时间

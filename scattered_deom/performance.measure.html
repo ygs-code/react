@@ -1,0 +1,57 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-11 16:56:12
+ * @LastEditTime: 2021-05-11 20:12:53
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/performance.measure.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 以一个标志开始。
+      performance.mark("mySetTimeout-start");
+
+      // 等待一些时间。
+      setTimeout(function () {
+        // 标志时间的结束。
+        performance.mark("mySetTimeout-end");
+
+        // 测量两个不同的标志。
+        // 对比两个时间戳 偏移量
+        performance.measure(
+          "mySetTimeout",
+          "mySetTimeout-start",
+          "mySetTimeout-end"
+        );
+
+        // 获取所有的测量输出。
+        // 在这个例子中只有一个。
+        var measures = performance.getEntriesByName("mySetTimeout");
+        var measure = measures[0];
+     
+        console.log("performance.getEntries():",performance.getEntries());
+        console.log("setTimeout milliseconds:", measure.duration);
+
+        // // 清除存储的标志位
+        performance.clearMarks();
+        performance.clearMeasures();
+
+                // 获取所有的测量输出。
+        // 在这个例子中只有一个。
+          measures = performance.getEntriesByName("mySetTimeout");
+          measure = measures[0];
+     
+        console.log("performance.getEntries():",performance.getEntries());
+        // console.log("setTimeout milliseconds:", measure.duration);
+      }, 1000);
+    </script>
+  </body>
+</html>

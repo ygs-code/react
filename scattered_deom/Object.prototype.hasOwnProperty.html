@@ -1,0 +1,35 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-07 11:22:22
+ * @LastEditTime: 2021-05-07 11:25:22
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/Object.prototype.hasOwnProperty.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      Object.prototype.name = "my is  Object name";
+      var o = {};
+      o.prototype = {
+        name: "my is  o name",
+      };
+      var ob={
+        name: "my is  ob name",
+      }
+      console.log(o.name);
+      //判断
+      console.log(Object.prototype.hasOwnProperty.call(o, "name"));
+      console.log(o.hasOwnProperty("name"));
+      console.log(Object.prototype.hasOwnProperty.call(ob, "name"));
+      console.log(ob.hasOwnProperty("name"));
+    </script>
+  </body>
+</html>

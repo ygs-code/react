@@ -1,15 +1,134 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 12:29:53
+ * @LastEditTime: 2021-05-10 15:44:05
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/performance.html
+-->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-     <script>
-        console.log('performance',performance)
-        console.log('performance.now',performance.now)
-      </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+       各字段的含义如下：
+        startTime：有些浏览器实现为navigationStart，代表浏览器开始unload前一个页面文档的开始时间节点。比如我们当前正在浏览baidu.com，在地址栏输入google.com并回车，浏览器的执行动作依次为：unload当前文档（即baidu.com）->请求下一文档（即google.com）。navigationStart的值便是触发unload当前文档的时间节点。
+
+        如果当前文档为空，则navigationStart的值等于fetchStart。
+
+        redirectStart和redirectEnd：如果页面是由redirect而来，则redirectStart和redirectEnd分别代表redirect开始和结束的时间节点；
+        unloadEventStart和unloadEventEnd：如果前一个文档和请求的文档是同一个域的，则unloadEventStart和unloadEventEnd分别代表浏览器unload前一个文档的开始和结束时间节点。否则两者都等于0；
+        fetchStart是指在浏览器发起任何请求之前的时间值。在fetchStart和domainLookupStart之间，浏览器会检查当前文档的缓存；
+        domainLookupStart和domainLookupEnd分别代表DNS查询的开始和结束时间节点。如果浏览器没有进行DNS查询（比如使用了cache），则两者的值都等于fetchStart；
+        connectStart和connectEnd分别代表TCP建立连接和连接成功的时间节点。如果浏览器没有进行TCP连接（比如使用持久化连接webscoket），则两者都等于domainLookupEnd；
+        secureConnectionStart：可选。如果页面使用HTTPS，它的值是安全连接握手之前的时刻。如果该属性不可用，则返回undefined。如果该属性可用，但没有使用HTTPS，则返回0；
+        requestStart代表浏览器发起请求的时间节点，请求的方式可以是请求服务器、缓存、本地资源等；
+        responseStart和responseEnd分别代表浏览器收到从服务器端（或缓存、本地资源）响应回的第一个字节和最后一个字节数据的时刻；
+        domLoading代表浏览器开始解析html文档的时间节点。我们知道IE浏览器下的document有readyState属性，domLoading的值就等于readyState改变为loading的时间节点；
+        domInteractive代表浏览器解析html文档的状态为interactive时的时间节点。domInteractive并非DOMReady，它早于DOMReady触发，代表html文档解析完毕（即dom tree创建完成）但是内嵌资源（比如外链css、js等）还未加载的时间点；
+        domContentLoadedEventStart：代表DOMContentLoaded事件触发的时间节点：
+
+        页面文档完全加载并解析完毕之后,会触发DOMContentLoaded事件，HTML文档不会等待样式文件,图片文件,子框架页面的加载(load事件可以用来检测HTML页面是否完全加载完毕(fully-loaded))。
+
+        domContentLoadedEventEnd：代表DOMContentLoaded事件完成的时间节点，此刻用户可以对页面进行操作，也就是jQuery中的domready时间；
+        domComplete：html文档完全解析完毕的时间节点；
+        loadEventStart和loadEventEnd分别代表onload事件触发和结束的时间节点
+
+        2.2.2 计算性能指标
+
+        可以使用Navigation.timing 统计到的时间数据来计算一些页面性能指标，比如DNS查询耗时、白屏时间、domready等等。如下：
+
+        DNS查询耗时 = domainLookupEnd - domainLookupStart
+        TCP链接耗时 = connectEnd - connectStart
+        request请求耗时 = responseEnd - responseStart
+        解析dom树耗时 = domComplete - domInteractive
+        白屏时间 = domloadng - fetchStart
+        domready时间 = domContentLoadedEventEnd - fetchStart
+        onload时间 = loadEventEnd - fetchStart
+        2.2.3 Resource timing API
+
+        Resource timing API是用来统计静态资源相关的时间信息，详细的内容请参考W3C Resource timing。这里我们只介绍performance.getEntries方法，它可以获取页面中每个静态资源的请求，【以百度移动版首页的logo为例】如下：
+
+
+
+
+
+
+        可以看到performance.getEntries返回一个数组，数组的每个元素代表对应的静态资源的信息，比如上图展示的第一个元素对应的资源类型initiatorType是图片img，请求花费的时间就是duration的值。
+
+        关于Resource timing API的使用场景，感兴趣的同学可以深入研究。
+
+       */
+      console.log("performance", performance);
+      console.log("performance.now", performance.now);
+
+      handleAddListener("load", getTiming);
+
+      function handleAddListener(type, fn) {
+        if (window.addEventListener) {
+          window.addEventListener(type, fn);
+        } else {
+          window.attachEvent("on" + type, fn);
+        }
+      }
+
+      function getTiming() {
+        try {
+          var time = performance.timing;
+          var timingObj = {};
+
+          var loadTime = (time.loadEventEnd - time.loadEventStart) / 1000;
+
+          if (loadTime < 0) {
+            setTimeout(function () {
+              getTiming();
+            }, 200);
+            return;
+          }
+
+          timingObj["重定向时间"] =
+            (time.redirectEnd - time.redirectStart) / 1000;
+          timingObj["DNS解析时间"] =
+            (time.domainLookupEnd - time.domainLookupStart) / 1000;
+          timingObj["TCP完成握手时间"] =
+            (time.connectEnd - time.connectStart) / 1000;
+          timingObj["HTTP请求响应完成时间"] =
+            (time.responseEnd - time.requestStart) / 1000;
+          timingObj["DOM开始加载前所花费时间"] =
+            (time.responseEnd - time.navigationStart) / 1000;
+          timingObj["DOM加载完成时间"] =
+            (time.domComplete - time.domLoading) / 1000;
+          timingObj["DOM结构解析完成时间"] =
+            (time.domInteractive - time.domLoading) / 1000;
+          timingObj["脚本加载时间"] =
+            (time.domContentLoadedEventEnd - time.domContentLoadedEventStart) /
+            1000;
+          timingObj["onload事件时间"] =
+            (time.loadEventEnd - time.loadEventStart) / 1000;
+          timingObj["页面完全加载时间"] =
+            timingObj["重定向时间"] +
+            timingObj["DNS解析时间"] +
+            timingObj["TCP完成握手时间"] +
+            timingObj["HTTP请求响应完成时间"] +
+            timingObj["DOM结构解析完成时间"] +
+            timingObj["DOM加载完成时间"];
+
+          for (item in timingObj) {
+            console.log(item + ":" + timingObj[item] + "毫秒(ms)");
+          }
+
+          console.log(performance.timing);
+        } catch (e) {
+          console.log(timingObj);
+          console.log(performance.timing);
+        }
+      }
+    </script>
+  </body>
 </html>

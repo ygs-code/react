@@ -1,0 +1,70 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-13 11:30:41
+ * @LastEditTime: 2021-05-13 11:53:45
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/clz32Fallback.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        /*
+        先把lanes 转换成二进制数，如果位数不够32位，则在前面补0，
+        前面有多少个 0 就返回值多少
+        */ 
+      function clz32Fallback(lanes) {
+        var log = Math.log; // 函数返回一个数的自然对数，即：
+        var LN2 = Math.LN2;
+        if (lanes === 0) {
+          return 32;
+        }
+
+        return (31 - ((log(lanes) / LN2) | 0)) | 0;
+      }
+      console.log("-30=", clz32Fallback(-30));
+      console.log("-15=", clz32Fallback(-15));
+      console.log("-10=", clz32Fallback(-10));
+      console.log("-5=", clz32Fallback(-5));
+      console.log("-1=", clz32Fallback(-1));
+      console.log("0=", clz32Fallback(0));
+      console.log("1=", clz32Fallback(1));
+      console.log("2=", clz32Fallback(2));
+      console.log("3=", clz32Fallback(3));
+      console.log("4=", clz32Fallback(4));
+      console.log("5=", clz32Fallback(5));
+      console.log("6=", clz32Fallback(6));
+      console.log("7=", clz32Fallback(7));
+      console.log("8=", clz32Fallback(8));
+      console.log("9=", clz32Fallback(9));
+      console.log("10=", clz32Fallback(10));
+      console.log("15=", clz32Fallback(15));
+      console.log("10=", clz32Fallback(10));
+      console.log("11=", clz32Fallback(11));
+      console.log("12=", clz32Fallback(12));
+      console.log("13=", clz32Fallback(13));
+      console.log("21=", clz32Fallback(21));
+      console.log("22=", clz32Fallback(22));
+      console.log("23=", clz32Fallback(23));
+      console.log("30=", clz32Fallback(30)); 
+      console.log("31=", clz32Fallback(31));
+      console.log("32=", clz32Fallback(32));
+      console.log("1=", clz32Fallback(1));
+      console.log("Math.clz32=", Math.clz32(1));
+      console.log("Math.clz32=", Math.clz32(1));
+      console.log("二进制转十进制：", parseInt('1', 2).toString());
+      let n=1
+      console.log("十进制转换为二进制：", n.toString(2));
+    //   console.log("十进制转换为二进制：", parseInt('100000000000000000000000000000', 2));
+    //   console.log("十进制转换为二进制：", parseInt('100000000000000000000000000000', 2));
+  
+    </script>
+  </body>
+</html>

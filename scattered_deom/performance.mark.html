@@ -1,0 +1,73 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-11 16:26:33
+ * @LastEditTime: 2021-05-11 16:30:33
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react/scattered_deom/performance.mark.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        run_PerformanceEntry()
+        function do_work(){
+          var i=10000
+          while(i){
+            i--
+          }
+        }
+      function run_PerformanceEntry() {
+        console.log("PerformanceEntry support ...");
+
+        if (performance.mark === undefined) {
+          console.log("... performance.mark Not supported");
+          return;
+        }
+        console.log(performance.now())
+        // Create some performance entries via the mark() method
+        performance.mark("Begin");
+        do_work(50000);
+        performance.mark("End");
+
+        // Use getEntries() to iterate through the each entry
+          var p = performance.getEntries();
+          
+      
+          console.log(p)
+        // for (var i = 0; i < p.length; i++) {
+        //   console.log("Entry[" + i + "]");
+        //   check_PerformanceEntry(p[i]);
+        // }
+      }
+      function check_PerformanceEntry(obj) {
+        var properties = ["name", "entryType", "startTime", "duration"];
+        var methods = ["toJSON"];
+
+        for (var i = 0; i < properties.length; i++) {
+          // check each property
+          var supported = properties[i] in obj;
+          if (supported)
+            console.log("..." + properties[i] + " = " + obj[properties[i]]);
+          else console.log("..." + properties[i] + " = Not supported");
+        }
+        for (var i = 0; i < methods.length; i++) {
+          // check each method
+          var supported = typeof obj[methods[i]] == "function";
+          if (supported) {
+            var js = obj[methods[i]]();
+            console.log("..." + methods[i] + "() = " + JSON.stringify(js));
+          } else {
+            console.log("..." + methods[i] + " = Not supported");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

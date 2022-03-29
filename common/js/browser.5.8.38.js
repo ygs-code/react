@@ -3282,9 +3282,9 @@
           }],
           14: [
             function (_dereq_, module, exports) {
-              console.log('_dereq_=', _dereq_)
-              console.log('module=', module)
-              console.log('exports=', exports);
+              // console.log('_dereq_=', _dereq_)
+              // console.log('module=', module)
+              // console.log('exports=', exports);
               // debugger
               (function (global) {
                 /* eslint no-new-func: 0 */
@@ -3314,10 +3314,10 @@
                 transform.run = function (code) {
                   var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
                   opts.sourceMaps = "eval";
-                  console.log('code=', code)
+                  // console.log('code=', code)
                    // 编译后的代码
                   global.code = transform(code, opts).code
-                  console.log('global.code=',global.code)
+                  // console.log('global.code=',global.code)
                      //执行编译后的代码
                   return new Function(global.code)();
                 };
@@ -3746,7 +3746,7 @@
                */
 
               Buffer.prototype.get = function get() {
-                console.log('this.buf=',this.buf)
+                // console.log('this.buf=',this.buf)
                 
                 return _trimRight2["default"](this.buf);
               };
@@ -6457,11 +6457,11 @@
                 this.whitespace = new _whitespace2["default"](this.tokens);
                 this.position = new _position2["default"]();
                 this.map = new _sourceMap2["default"](this.position, opts, code);
-                console.log('this.position, this.format',this.position, this.format)
+                // console.log('this.position, this.format',this.position, this.format)
              
                 //转义代码类
                 this.buffer = new _buffer2["default"](this.position, this.format);
-                console.log('this.buffer ',this.buffer )
+                // console.log('this.buffer ',this.buffer )
                  
               }
 
@@ -6566,11 +6566,11 @@
 
               CodeGenerator.prototype.generate = function generate() {
                 var ast = this.ast;
-                console.log('code=====',this.buffer.get())
+                // console.log('code=====',this.buffer.get())
               
                  // 主要是这个函数把ast代码转成es5
                  this.print(ast);
-                 console.log('code=====',this.buffer.get())
+                //  console.log('code=====',this.buffer.get())
               
 
           
@@ -6679,8 +6679,8 @@
                 if (opts.before) opts.before();
                 // 制造代码
                 this.map.mark(node, "start");
-                console.log('this=',this)
-                console.log('this[node.type]=',this[node.type])
+                // console.log('this=',this)
+                // console.log('this[node.type]=',this[node.type])
 
                 this[node.type](node, this.buildPrint(node), parent);
 
@@ -9425,13 +9425,13 @@
                 File.prototype.transform = function transform() {
                   this.call("pre");
                   var _arr6 = this.transformerStack;
-                  console.log('_arr6=', _arr6)
+                  // console.log('_arr6=', _arr6)
                   for (var _i6 = 0; _i6 < _arr6.length; _i6++) {
                     var pass = _arr6[_i6];
                     pass.transform();
                   }
                   this.call("post");
-                  console.log('this.generate', this.generate())
+                  // console.log('this.generate', this.generate())
                   return this.generate();
                 };
 
@@ -9449,13 +9449,13 @@
                     if (this.shouldIgnore()) {
                       // debugger;
                       //转换es6 转es5
-                      console.log('makeResult_code=', code)
+                      // console.log('makeResult_code=', code)
                       return this.makeResult({
                         code: code,
                         ignored: true
                       });
                     } else {
-                      console.log('callback', callback)
+                      // console.log('callback', callback)
                       // debugger;
                       return callback();
                     }
@@ -9502,7 +9502,7 @@
                   code = (code || "") + "";
 
                   code = this.parseInputSourceMap(code);
-                  console.log('code===', code)
+                  // console.log('code===', code)
                   this.code = code;
                 };
 
@@ -9547,16 +9547,16 @@
 
                 File.prototype.parseInputSourceMap = function parseInputSourceMap(code) {
                   var opts = this.opts;
-                  console.log('code==', code)
+                  // console.log('code==', code)
                   if (opts.inputSourceMap !== false) {
                     var inputMap = _convertSourceMap2["default"].fromSource(code);
-                    console.log('inputMap=', inputMap)
+                    // console.log('inputMap=', inputMap)
                     if (inputMap) {
                       opts.inputSourceMap = inputMap.toObject();
                       code = _convertSourceMap2["default"].removeComments(code);
                     }
                   }
-                  console.log('code===', code)
+                  // console.log('code===', code)
 
                   return code;
                 };
@@ -9566,9 +9566,9 @@
                  */
 
                 File.prototype.parseShebang = function parseShebang() {
-                  console.log('parseShebang_code', this.code)
+                  // console.log('parseShebang_code', this.code)
                   var shebangMatch = _shebangRegex2["default"].exec(this.code);
-                  console.log('shebangMatch', shebangMatch)
+                  // console.log('shebangMatch', shebangMatch)
                   if (shebangMatch) {
                     this.shebang = shebangMatch[0];
                     this.code = this.code.replace(_shebangRegex2["default"], "");
@@ -9606,7 +9606,7 @@
                     result.metadata = this.metadata;
                     result.metadata.usedHelpers = Object.keys(this.usedHelpers);
                   }
-                  console.log('result=', result)
+                  // console.log('result=', result)
                   return result;
                 };
 
@@ -9626,14 +9626,14 @@
                   
                  
                   if (!opts.code) return this.makeResult(result);
-                  console.log('result=',result)
+                  // console.log('result=',result)
                    
                   this.log.debug("Generation start");
                   // 将ast 转行成 es5 
                   var _result = _generation2["default"](ast, opts, this.code);
                   result.code = _result.code;
                   result.map = _result.map;
-                  console.log('result=',result)
+                  // console.log('result=',result)
                     
 
                   this.log.debug("Generation end");
@@ -9654,7 +9654,7 @@
                   if (opts.sourceMaps === "inline") {
                     result.map = null;
                   }
-                 console.log('result=',result)
+                //  console.log('result=',result)
                 
                   return this.makeResult(result);
                 };
@@ -15083,31 +15083,31 @@
                */
               // es6转换es6
               Pipeline.prototype.transform = function transform(code, opts) {
-                console.log('code=', code)
+                // console.log('code=', code)
                 var file = new _file2["default"](opts, this);
-                console.log('file1=', {
-                  ...file
-                })
+                // console.log('file1=', {
+                //   ...file
+                // })
                 // 这个就是es6转es5代码的函数
                 const fileData = file.wrap(code, function () {
-                  console.log('file2=', {
-                    ...file
-                  })
+                  // console.log('file2=', {
+                  //   ...file
+                  // })
 
                   file.addCode(code);
-                  console.log('file3=', {
-                    ...file
-                  })
+                  // console.log('file3=', {
+                  //   ...file
+                  // })
 
                   file.parseCode(code);
-                  console.log('file4=', {
-                    ...file
-                  })
+                  // console.log('file4=', {
+                  //   ...file
+                  // })
 
                   return file.transform();
                 });
                 // 这个就是es6转es5的代码 
-                console.log('fileData==', fileData.code)
+                // console.log('fileData==', fileData.code)
                 return fileData;
               };
 
@@ -28034,20 +28034,20 @@
 
               Scope.prototype.dump = function dump() {
                 var sep = _repeating2["default"]("-", 60);
-                console.log(sep);
+                // console.log(sep);
                 var scope = this;
                 do {
-                  console.log("#", scope.block.type);
+                  // console.log("#", scope.block.type);
                   for (var name in scope.bindings) {
                     var binding = scope.bindings[name];
-                    console.log(" -", name, {
-                      constant: binding.constant,
-                      references: binding.references,
-                      kind: binding.kind
-                    });
+                    // console.log(" -", name, {
+                    //   constant: binding.constant,
+                    //   references: binding.references,
+                    //   kind: binding.kind
+                    // });
                   }
                 } while (scope = scope.parent);
-                console.log(sep);
+                // console.log(sep);
               };
 
               /**
@@ -77124,7 +77124,7 @@
             _parser.plugins.jsx = _pluginsJsx2["default"];
 
             function parse(input, options) {
-              console.log('input', input)
+              // console.log('input', input)
               return new _parser2["default"](options, input).parse();
             }
 
@@ -78357,11 +78357,11 @@
 
                 //产生ast对象
                 const astData = this.parseTopLevel(file, program);
-                console.log('astData=', astData)
+                // console.log('astData=', astData)
                 return astData;
               };
-              console.log('Parser', Parser)
-              console.log('Parser.prototype', Parser.prototype)
+              // console.log('Parser', Parser)
+              // console.log('Parser.prototype', Parser.prototype)
 
               return Parser;
             })(_tokenizer2["default"]);
@@ -78403,7 +78403,7 @@
           //消息。
 
             pp.raise = function (pos, message) {
-              console.log('raise==')
+              // console.log('raise==')
               //移动pos 索引
               var loc = _utilLocation.getLineInfo(this.input, pos);
               message += " (" + loc.line + ":" + loc.column + ")";
@@ -78765,10 +78765,10 @@
               program.body = [];
 
               var first = true;
-              console.log('this', this)
-              console.log('this.state=', this.state)
-              console.log('_tokenizerTypes.types.eof', _tokenizerTypes.types.eof)
-              console.log('this.match(_tokenizerTypes.types.eof)', this.match(_tokenizerTypes.types.eof))
+              // console.log('this', this)
+              // console.log('this.state=', this.state)
+              // console.log('_tokenizerTypes.types.eof', _tokenizerTypes.types.eof)
+              // console.log('this.match(_tokenizerTypes.types.eof)', this.match(_tokenizerTypes.types.eof))
               // debugger;
               while (!this.match(_tokenizerTypes.types.eof)) {
 
@@ -78780,17 +78780,17 @@
                   first = false;
                 }
               }
-              console.log('this', this)
-              console.log('this.match(_tokenizerTypes.types.eof)', this.match(_tokenizerTypes.types.eof))
-              console.log('_tokenizerTypes.types.eof', _tokenizerTypes.types.eof)
-              console.log('this.state=', this.state)
+              // console.log('this', this)
+              // console.log('this.match(_tokenizerTypes.types.eof)', this.match(_tokenizerTypes.types.eof))
+              // console.log('_tokenizerTypes.types.eof', _tokenizerTypes.types.eof)
+              // console.log('this.state=', this.state)
               // debugger
               this.next();
 
               file.program = this.finishNode(program, "Program");
               file.comments = this.state.comments;
               file.tokens = this.state.tokens;
-              console.log('this.state=', this.state)
+              // console.log('this.state=', this.state)
               // debugger
 
              // 创建一个完整的ast对象
@@ -81666,7 +81666,7 @@
                 _classCallCheck(this, Tokenizer);
                 // 注入state类 
                 this.state = new _state2["default"]();
-                console.log('input',input)
+                // console.log('input',input)
                 // debugger;
                 this.state.init(input);
               }
@@ -81674,7 +81674,7 @@
               // Move to the next token 移动到下一个 token
               // 并且将token添加到tokens 队列中
               Tokenizer.prototype.next = function next() {
-                console.log('next')
+                // console.log('next')
                 this.state.tokens.push(new Token(this.state));
 
                 this.state.lastTokEnd = this.state.end;
@@ -81729,7 +81729,7 @@
               };
 
               Tokenizer.prototype.curContext = function curContext() {
-                console.log('this.state.context', this.state.context)
+                // console.log('this.state.context', this.state.context)
                 return this.state.context[this.state.context.length - 1];
               };
 
@@ -81744,9 +81744,9 @@
                 
                 this.state.start = this.state.pos;
                 this.state.startLoc = this.state.curPosition();
-                console.log('this.state.start=', this.state.start)
-                console.log('this.state.startLoc=', this.state.startLoc)
-                console.log('this.state.pos',this.state.pos)
+                // console.log('this.state.start=', this.state.start)
+                // console.log('this.state.startLoc=', this.state.startLoc)
+                // console.log('this.state.pos',this.state.pos)
                 if (this.state.pos >= this.input.length) {
                   return this.finishToken(_types.types.eof);
                 }
@@ -81764,7 +81764,7 @@
                 // identifiers, so '\' also dispatches to that.
                 // 标识符或关键字。允许输入'\uXXXX'序列
                 //标识符，所以'\'也会分派给那个。
-                console.log('readToken_code',code)
+                // console.log('readToken_code',code)
                 // debugger;
                 // 判断是否是标识的开始
                 if (_utilIdentifier.isIdentifierStart(code, true) || code === 92 /* '\' */ ) return this.readWord();
@@ -81774,8 +81774,8 @@
               // 获取代码  this.state.pos 代码索引的位置
               Tokenizer.prototype.fullCharCodeAtPos = function fullCharCodeAtPos() {
                 var code = this.input.charCodeAt(this.state.pos);
-                console.log('code====', code)
-                console.log('this.state.pos===', this.state.pos)
+                // console.log('code====', code)
+                // console.log('this.state.pos===', this.state.pos)
                 if (code <= 0xd7ff || code >= 0xe000) return code;
 
                 var next = this.input.charCodeAt(this.state.pos + 1);
@@ -83044,7 +83044,7 @@
             // Test whether a given character code starts an identifier. 测试给定的字符代码是否启动标识符。
 
             function isIdentifierStart(code) {
-              console.log('isIdentifierStart_code=',code)
+              // console.log('isIdentifierStart_code=',code)
               if (code < 65) return code === 36;
               if (code < 91) return true;
               if (code < 97) return code === 95;
