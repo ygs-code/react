@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-06 12:29:53
- * @LastEditTime: 2021-05-17 11:56:27
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-29 17:31:36
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
  * @FilePath: /react/es6.html
 -->
@@ -52,42 +52,43 @@
   </div>
   <textarea id="textarea" class='textarea right-box' ></textarea> 
 
-  <script src="./es6_code/es6_react_code/demo/functionConpoment.js" type="text/babel"></script>
+  <!-- <script src="./es6_code/es6_react_code/demo/functionConpoment.js" type="text/babel"></script> -->
+  <script src="./es5_code/es5_react_code/01/01.js" type="text/babel"></script>
  <script>
  
-//  var oTextarea= document.getElementById('textarea');
-//   setTimeout(() => {
-//     // console.log('code=',code)
-//     // debugger
-//     oTextarea.value=code
-//     // console.log('code=',code)
-//     // debugger
-//     var oldCode = window.localStorage.getItem('code');
-//     // 如果同样代码 则不会在发送请求
-//     if(oldCode===code){
-//       return false
-//     }
-//     window.localStorage.setItem('code',code);
-//    //把代码发送到服务器
-//     ajax({
-//       url: "http://127.0.0.1:5000/createCode",
-//       type: 'post',
-//       data: {
-//         path: '/es5_code/es5_react_code/01/01.js',
-//         code: code,
-//       },
-//       dataType: 'json',
-//       timeout: 10000,
-//       contentType: "application/json",
-//       success: function (data) {
-//         console.log('data====',data)
-//       },
-//       //异常处理
-//       error: function (e) {
-//         console.log(e);
-//       }
-//     })
-//   }, 200);
+ var oTextarea= document.getElementById('textarea');
+  setTimeout(() => {
+    // console.log('code=',code)
+    // debugger
+    oTextarea.value=code
+    // console.log('code=',code)
+    // debugger
+    var oldCode = window.localStorage.getItem('code');
+    // 如果同样代码 则不会在发送请求
+    if(oldCode===code){
+      return false
+    }
+    window.localStorage.setItem('code',code);
+   //把代码发送到服务器
+    ajax({
+      url: "http://127.0.0.1:5000/createCode",
+      type: 'post',
+      data: {
+        path: '/es5_code/es5_react_code/01/01.js',
+        code: code,
+      },
+      dataType: 'json',
+      timeout: 10000,
+      contentType: "application/json",
+      success: function (data) {
+        console.log('data====',data)
+      },
+      //异常处理
+      error: function (e) {
+        console.log(e);
+      }
+    })
+  }, 200);
 
  
   </script>   
