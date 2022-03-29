@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+</head>
+<script src="./fre.js"> </script>
+
+<body>
+     <div id="example"></div>
+     <script>
+          const {
+               render,
+               setState,
+               createElement
+          } = React
+          console.log('setState=', setState)
+          var element = React.createElement(
+               'h1',
+               null,
+               'Hello, world'
+          )
+
+          console.log('element==', element)
+          render(React.createElement(
+               'h1',
+               null,
+               'Hello, world'
+          ), document.getElementById('example'));
+
+
+
+     </script>
+</body>
+
+</html>
